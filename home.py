@@ -43,14 +43,16 @@ if prompt:
             model="nousresearch/nous-capybara-7b",
             messages=[
                 {"role": "system", "content": """
-                 Tu es assistant expert en traduction. Tu dois dire si une demande  de traduction d'un utilisateur depasse la limite de  3 mots MAXIMUM.
+                 Tu dois dire si une demande de traduction d'un utilisateur depasse la limite de 3 mots MAXIMUM. Tu dois compter uniquement les mots que l'utilisateur cherche à traduire. TU DOIS répondre OUI ou NON et indiquer le nombre de mots. TU ne dois pas traduire à la demande de l'utilisateur.
                  Par exemple:
-                    User - Comment ont dit 'je rentre à la maison' en espagnol?
-                    Assistant - NON.
+                    User - Traduis 'je rentre à la maison' en espagnol?
+                    Assistant - NON, 5 mots.
                     User - Comment ont dit 'je rentre' en espagnol?
-                    Assistant - OUI.
+                    Assistant - OUI, 2 mots.
                     User - Comment ont dit 'comment s'appelle ton oncle' en espagnol?
-                    Assistant - NON.
+                    Assistant - NON, 5 mots.
+                    Traduis 'Je préfère Barcelone' en espagnol?
+                    Assistant - OUI, 3 mots.
                  """},
                 {"role": "user", "content": prompt} 
                 ],
@@ -58,7 +60,7 @@ if prompt:
             )
             # Check if user prompt is compliant with the length constraint. Check if response contains "OUI" or "NON"
             
-            if "OUI" in response.choices[0].message:
+            if "OUI" in response.choices[0].message.content:
                 print("OUI")
                 print(response.choices[0])
                 for response in client.chat.completions.create(
