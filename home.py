@@ -45,38 +45,51 @@ if prompt:
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             full_response = ""
+            
+            # Ask LLM to extract the words that the user wants to translate
+            system_prompt_extract_words = """
+                 Quels sont les mots que l'utilisateur veut traduire?
+                 """
+            response = client.chat.completions.create(
+            model=MODE_NAME,
+            messages=[
+                {"role": "system", "content": system_prompt_extract_words},
+                {"role": "user", "content": prompt} 
+                ],
+            stream=False,
+            )
+            # Check if the prompt is already in the system prompts file
+            system_prompt_id = get_system_prompt_id(system_prompt_extract_words)
+            if system_prompt_id is None:
+                # Add prompt to system prompts file
+                system_prompt_id = add_system_prompt(system_prompt_extract_words)
+            
+            # Add interaction to interactions file
+            add_llm_call_row(system_prompt_id, "extract_words_call", prompt, response.choices[0].message.content, MODE_NAME )
+            
 
             # Ask LLM if promt is complaint with the length constraint. If not, ask user to rephrase. Indeed, the LLM is trained to translate only two words at a time.
             print("prompt: ", prompt)
             system_prompt = """
-                 Ta mission est de DÉTERMINER si une demande de traduction d'un utilisateur depasse la limite de 3 mots MAXIMUM. Tu dois compter uniquement les mots que l'utilisateur cherche à traduire. TU DOIS répondre OUI ou NON et indiquer le nombre de mots. TU NE DOIS PAS TRADUIRE la demande de l'utilisateur.
+                 Ta mission est de DÉTERMINER si une demande de traduction d'un utilisateur depasse la limite de 3 mots MAXIMUM. Tu dois compter uniquement les mots que l'utilisateur cherche à traduire. TU DOIS répondre OUI ou NON, indiquer le nombre de mots et les mots que l'utilisateur cherche à traduire. TU NE DOIS PAS TRADUIRE la demande de l'utilisateur.
                  On va procéder par étapes.
                  1. Tu dois compter le nombre de mots que l'utilisateur cherche à traduire.
-                 User - Traduis 'je rentre à la maison' en espagnol? 
-                 (5 mots: je rentre à la maison)
                  2. Tu dois répondre OUI ou NON en fonction du nombre de mots.
-                 3. Si la réponse est NON, tu dois indiquer le nombre de mots.
-                 Assistant - NON, 5 mots.
-                 4. Si la réponse est OUI, tu dois dire le nombre de mots.
+                 3. Si la réponse est NON, tu dois indiquer le nombre de mots et les mots que l'utilisateur cherche à traduire.
+                 4. Si la réponse est OUI, tu dois dire le nombre de mots et les mots que l'utilisateur cherche à traduire.
                  Par exemple:
                     User - Comment ont dit 'je rentre' en espagnol?
-                    (2 mots: je rentre)
-                    Assistant - OUI, 2 mots.
-                    User - Comment ont dit 'comment s'appelle ton oncle' en espagnol? 
-                    (6 mots: comment s'appelle ton oncle)
-                    Assistant - NON, 5 mots.
-                    Traduis 'Je préfère Barcelone' en espagnol? 
-                    (3 mots: Je préfère Barcelone)
-                    Assistant - OUI, 3 mots.
+                    Assistant - OUI, (2 mots: /je/ /rentre/).
+                    User - Comment ont dit '/comment/ /s'/ /appelle/ /ton/ /oncle/' en espagnol? 
+                    Assistant - NON, (6 mots: /comment/ /s'/ /appelle/ /ton/ /oncle/).
+                    Traduis '/Je/ /préfère/ /Barcelone/' en espagnol? 
+                    Assistant - OUI, (3 mots: /Je/ /préfère/ /Barcelone/) .
                     User - Comment ont dit Je préfère en espagnol? 
-                    (2 mots: Je préfère)
-                    Assistant - OUI, 2 mots.
+                    Assistant - OUI, (2 mots: /Je/ /préfère/).
                     User - Comment ont dit Barcelone en espagnol? 
-                    (1 mot: Barcelone)
-                    Assistant - OUI, 1 mot.
+                    Assistant - OUI, (1 mot: /Barcelone/) .
                     User - Traduis je pars de la maison en espagnol? 
-                    (5 mots: je pars de la maison)
-                    Assistant - NON, 5 mots.
+                    Assistant - NON, (5 mots: /je/ /pars/ /de/ /la/ /maison/).
                     
                     Je te rappelle que tu dois compter uniquement les mots que l'utilisateur cherche à traduire. TU NE DOIS PAS TRADUIRE la demande de l'utilisateur.
                  """
