@@ -36,30 +36,67 @@ if prompt:
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             full_response = ""
-        
 
-            for response in client.chat.completions.create(
-            model="mistralai/mistral-7b-instruct",
+            # Ask LLM if promt is complaint with the length constraint. If not, ask user to rephrase. Indeed, the LLM is trained to translate only two words at a time.
+            
+            response = client.chat.completions.create(
+            model="nousresearch/nous-capybara-7b",
             messages=[
-                {"role": "system", "content": "Tu es Dico, un assistant qui aide des élèves de collège à traduire des mots de vocabulaire. Tu peux aussi donner des définitions de mots. Mais tu dois traduire deux mots à la fois MAXIMUM. Si on te deamnde de traduire une phrase, TU DOIS EXIGER qu'on te demande deux mots à la fois MAXIMUM. Par exemple: 'traduis-moi le mot 'hola' en français' ou 'traduis-moi le mot 'bonjour' en espagnol' ou 'donne-moi la définition du mot 'hola'' ou 'donne-moi la définition du mot 'bonjour''. Si on te demande de traduire une phrase, tu dois répondre: 'Je ne comprends pas. Demande-moi de traduire un mot à la fois.'. Par exemple si on te demande 'traduis-moi la phrase 'hola, como estas?' en français', tu dois répondre: 'Je ne peux pas désolé. Demande-moi de traduire deux mots à la fois maximum.'."},
+                {"role": "system", "content": """
+                 Tu es assistant expert en traduction. Tu dois dire si une demande  de traduction d'un utilisateur depasse la limite de  3 mots MAXIMUM.
+                 Par exemple:
+                    User - Comment ont dit 'je rentre à la maison' en espagnol?
+                    Assistant - NON.
+                    User - Comment ont dit 'je rentre' en espagnol?
+                    Assistant - OUI.
+                    User - Comment ont dit 'comment s'appelle ton oncle' en espagnol?
+                    Assistant - NON.
+                 """},
                 {"role": "user", "content": prompt} 
                 ],
-            stream=True,
-        ):
-                if response.choices[0].delta is not None :
-                    full_response += (response.choices[0].delta.content or "")
-                    message_placeholder.markdown(full_response + "▌ ")
-            message_placeholder.markdown(full_response)
-        st.session_state.messages.append(
-            {
-                'role': "assistant",
-                'content': full_response
-            }
-        )
-        
-
-
-     
+            stream=False,    
+            )
+            # Check if user prompt is compliant with the length constraint. Check if response contains "OUI" or "NON"
+            
+            if "OUI" in response.choices[0].message:
+                print("OUI")
+                print(response.choices[0])
+                for response in client.chat.completions.create(
+                model="nousresearch/nous-capybara-7b",
+                messages=[
+                    {"role": "system", "content": """
+                    Tu es Dico, un assistant qui aide des élèves de collège à traduire des mots (PAS PLUS DE 3 MOTS A LA FOIS) de vocabulaire. Tu peux aussi donner des définitions de mots. 
+                    Par exemple: 'traduis-moi le mot 'hola' en français' ou 'traduis-moi le mot 'bonjour' en espagnol' ou 'donne-moi la définition du mot 'hola' ou 'donne-moi la définition du mot 'bonjour'.
+                    Mais tu dois traduire un mot à la fois MAXIMUM. Si on te deamnde de traduire une phrase, (c'est-à-dire plus de trois mots à la fois) TU DOIS EXIGER qu'on te demande un mot à la fois MAXIMUM. 
+                    Par exemple: 
+                    User - Comment ont dit 'je rentre à la maison' en espagnol?
+                    Assistant - Je ne peux traduire une phrase. Demande-moi de traduire un mot à la fois MAXIMUM.
+                    """},
+                    {"role": "user", "content": prompt} 
+                    ],
+                    stream=True,
+                ):
+                    if response.choices[0].delta is not None :
+                        full_response += (response.choices[0].delta.content or "")
+                        message_placeholder.markdown(full_response + "▌ ")
+                message_placeholder.markdown(full_response)
+            else:
+                print("NON")
+                print(response.choices)
+                message_placeholder.markdown("""
+                Je ne peux traduire une phrase. Demande-moi de traduire un mot à la fois MAXIMUM.
+                """)
+                full_response = """
+                Je ne peux traduire une phrase. Demande-moi de traduire un mot à la fois MAXIMUM.
+                """
+                st.session_state.messages.append(
+                    {
+                        'role': "assistant",
+                        'content': full_response
+                    }
+                )
+            
+                
         
 # Add sidebar Q&A to tell users in french how to use the app and why thre're certain constraints
 st.sidebar.title("Q&A")
