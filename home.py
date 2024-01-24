@@ -1,8 +1,11 @@
 import streamlit as st
+from utils import add_system_prompt, get_system_prompt_id, add_llm_call_row, init_files
+import pandas as pd
 
 from openai import OpenAI
 
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+MODE_NAME = "nousresearch/nous-capybara-7b"
 
 
 st.title("DicoIA")
@@ -23,7 +26,11 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
      
-
+# Try to initialize the files (for keeping track of prompt design and logging)
+try:
+    init_files()
+except:
+    st.error("Error initializing files. Please check the file permissions.")
 prompt = st.chat_input("Que veux-tu savoir ?")
 if prompt:
         # Add user message to chat history
@@ -38,28 +45,59 @@ if prompt:
             full_response = ""
 
             # Ask LLM if promt is complaint with the length constraint. If not, ask user to rephrase. Indeed, the LLM is trained to translate only two words at a time.
+            print("prompt: ", prompt)
+            system_prompt = """
+                 Ta mission est de DÉTERMINER si une demande de traduction d'un utilisateur depasse la limite de 3 mots MAXIMUM. Tu dois compter uniquement les mots que l'utilisateur cherche à traduire. TU DOIS répondre OUI ou NON et indiquer le nombre de mots. TU NE DOIS PAS TRADUIRE la demande de l'utilisateur.
+                 On va procéder par étapes.
+                 1. Tu dois compter le nombre de mots que l'utilisateur cherche à traduire.
+                 User - Traduis 'je rentre à la maison' en espagnol? 
+                 (5 mots: je rentre à la maison)
+                 2. Tu dois répondre OUI ou NON en fonction du nombre de mots.
+                 3. Si la réponse est NON, tu dois indiquer le nombre de mots.
+                 Assistant - NON, 5 mots.
+                 4. Si la réponse est OUI, tu dois dire le nombre de mots.
+                 Par exemple:
+                    User - Comment ont dit 'je rentre' en espagnol?
+                    (2 mots: je rentre)
+                    Assistant - OUI, 2 mots.
+                    User - Comment ont dit 'comment s'appelle ton oncle' en espagnol? 
+                    (6 mots: comment s'appelle ton oncle)
+                    Assistant - NON, 5 mots.
+                    Traduis 'Je préfère Barcelone' en espagnol? 
+                    (3 mots: Je préfère Barcelone)
+                    Assistant - OUI, 3 mots.
+                    User - Comment ont dit Je préfère en espagnol? 
+                    (2 mots: Je préfère)
+                    Assistant - OUI, 2 mots.
+                    User - Comment ont dit Barcelone en espagnol? 
+                    (1 mot: Barcelone)
+                    Assistant - OUI, 1 mot.
+                    User - Traduis je pars de la maison en espagnol? 
+                    (5 mots: je pars de la maison)
+                    Assistant - NON, 5 mots.
+                    
+                    Je te rappelle que tu dois compter uniquement les mots que l'utilisateur cherche à traduire. TU NE DOIS PAS TRADUIRE la demande de l'utilisateur.
+                 """
             
             response = client.chat.completions.create(
-            model="nousresearch/nous-capybara-7b",
+            model=MODE_NAME,
             messages=[
-                {"role": "system", "content": """
-                 Tu dois dire si une demande de traduction d'un utilisateur depasse la limite de 3 mots MAXIMUM. Tu dois compter uniquement les mots que l'utilisateur cherche à traduire. TU DOIS répondre OUI ou NON et indiquer le nombre de mots. TU ne dois pas traduire à la demande de l'utilisateur.
-                 Par exemple:
-                    User - Traduis 'je rentre à la maison' en espagnol?
-                    Assistant - NON, 5 mots.
-                    User - Comment ont dit 'je rentre' en espagnol?
-                    Assistant - OUI, 2 mots.
-                    User - Comment ont dit 'comment s'appelle ton oncle' en espagnol?
-                    Assistant - NON, 5 mots.
-                    Traduis 'Je préfère Barcelone' en espagnol?
-                    Assistant - OUI, 3 mots.
-                 """},
+                {"role": "system", "content": system_prompt},
                 {"role": "user", "content": prompt} 
                 ],
             stream=False,    
             )
-            # Check if user prompt is compliant with the length constraint. Check if response contains "OUI" or "NON"
             
+            # Check if the prompt is already in the system prompts file
+            system_prompt_id = get_system_prompt_id(system_prompt)
+            if system_prompt_id is None:
+                # Add prompt to system prompts file
+                system_prompt_id = add_system_prompt(system_prompt)
+                
+            # Add interaction to interactions file
+            add_llm_call_row(system_prompt_id, prompt, response.choices[0].message.content, MODE_NAME )            
+           
+            # Check if user prompt is compliant with the length constraint. Check if response contains "OUI" or "NON"
             if "OUI" in response.choices[0].message.content:
                 print("OUI")
                 print(response.choices[0])
@@ -99,7 +137,12 @@ if prompt:
                 )
             
                 
-        
+# Importing the dataset 
+df = pd.read_csv('interactions.csv')
+
+# Displaying the dataset as a table
+st.sidebar.subheader('Tableau des interactions')
+st.sidebar.dataframe(df)
 # Add sidebar Q&A to tell users in french how to use the app and why thre're certain constraints
 st.sidebar.title("Q&A")
 st.sidebar.markdown("### Comment utiliser DicoIA?")
@@ -114,6 +157,5 @@ st.sidebar.markdown("Les guillemets (\"\") sont nécessaires pour aider DicoIA �
 # Questions et conseils méthodologiques pour développer l'autonomie des élèves et les aider à utiliser un traducteur judicieusement
 st.sidebar.markdown("### Comment je fais si j'ai besoin de traduire une phrase?")
 st.sidebar.markdown("Pour construire une phrase tu dois d'abord réfléchir à ce que tu veux dire. Ensuite, tu dois essayer de trouver les mots qui te permettent de dire ce que tu veux dire. Tu peux te servir du matériel de cours à ta disposition. Fais des phrases simples. ")
-
 
 

@@ -1,0 +1,2 @@
+UserPrompt,SystemPromptID,LLMResponse,ModelName,Date,Quality,Comments,UserFeedback
+Traduis malgré tout en espagnol,1,"Por favor, no traduzca la pregunta del usuario. Solo cuente los mots que el usuario quiere traducir.",nousresearch/nous-capybara-7b,2024-01-24 23:18:41,BAD,,
