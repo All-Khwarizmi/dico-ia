@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import add_system_prompt, get_system_prompt_id, add_llm_call_row, init_files
+from utils import add_system_prompt, get_system_prompt_id, add_llm_call_row, init_files, update_last_row_quality_comments
 import pandas as pd
 
 from openai import OpenAI
@@ -143,6 +143,16 @@ df = pd.read_csv('interactions.csv')
 # Displaying the dataset as a table
 st.sidebar.subheader('Tableau des interactions')
 st.sidebar.dataframe(df)
+
+# Check if dataset is empty and if not, show possiblity of adding a quality  and comments
+if not df.empty:
+    st.sidebar.subheader('Ajouter une qualité et des commentaires')
+    quality = st.sidebar.selectbox('Qualité', ['','1', '2', '3', '4', '5'])
+    comments = st.sidebar.text_input('Commentaires')
+    if st.sidebar.button('Ajouter'):
+        update_last_row_quality_comments(quality, comments)
+        st.sidebar.success("Qualité et commentaires ajoutés avec succès!")
+
 # Add sidebar Q&A to tell users in french how to use the app and why thre're certain constraints
 st.sidebar.title("Q&A")
 st.sidebar.markdown("### Comment utiliser DicoIA?")

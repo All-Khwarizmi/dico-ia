@@ -58,3 +58,22 @@ def add_llm_call_row(system_prompt_id, user_prompt, llm_response, model_name, qu
         writer.writerow([user_prompt, system_prompt_id, llm_response, model_name, date_time, quality, comments, user_feedback, ])
 
 
+# Function to update quality and comments for the last row
+def update_last_row_quality_comments(quality, comments):
+    if not os.path.exists(interactions_file):
+        print("Interactions file does not exist.")
+        return
+
+    with open(interactions_file, 'r', newline='') as file:
+        reader = csv.reader(file)
+        rows = list(reader)
+
+    if len(rows) > 1:  # Check if there's more than just the header
+        rows[-1][5] = quality   # Update quality
+        rows[-1][6] = comments  # Update comments
+
+        with open(interactions_file, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(rows)
+    else:
+        print("No interaction data to update.")
