@@ -1,3 +1,4 @@
+from os import system
 import streamlit as st
 from utils import add_system_prompt, get_system_prompt_id, add_llm_call_row, init_files, update_last_row_quality_comments
 import pandas as pd
@@ -5,7 +6,8 @@ import pandas as pd
 from openai import OpenAI
 
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
-MODE_NAME = "nousresearch/nous-capybara-7b"
+model_list = ["mistralai/mistral-7b-instruct", "nousresearch/nous-capybara-7b"]
+MODE_NAME = "mistralai/mistral-7b-instruct"
 
 
 st.title("DicoIA")
@@ -95,23 +97,24 @@ if prompt:
                 system_prompt_id = add_system_prompt(system_prompt)
                 
             # Add interaction to interactions file
-            add_llm_call_row(system_prompt_id, prompt, response.choices[0].message.content, MODE_NAME )            
+            add_llm_call_row(system_prompt_id, "is_compliant_call", prompt, response.choices[0].message.content, MODE_NAME )            
            
             # Check if user prompt is compliant with the length constraint. Check if response contains "OUI" or "NON"
             if "OUI" in response.choices[0].message.content:
                 print("OUI")
                 print(response.choices[0])
-                for response in client.chat.completions.create(
-                model="nousresearch/nous-capybara-7b",
-                messages=[
-                    {"role": "system", "content": """
+                system_prompt_2 = """
                     Tu es Dico, un assistant qui aide des élèves de collège à traduire des mots (PAS PLUS DE 3 MOTS A LA FOIS) de vocabulaire. Tu peux aussi donner des définitions de mots. 
                     Par exemple: 'traduis-moi le mot 'hola' en français' ou 'traduis-moi le mot 'bonjour' en espagnol' ou 'donne-moi la définition du mot 'hola' ou 'donne-moi la définition du mot 'bonjour'.
                     Mais tu dois traduire un mot à la fois MAXIMUM. Si on te deamnde de traduire une phrase, (c'est-à-dire plus de trois mots à la fois) TU DOIS EXIGER qu'on te demande un mot à la fois MAXIMUM. 
                     Par exemple: 
                     User - Comment ont dit 'je rentre à la maison' en espagnol?
                     Assistant - Je ne peux traduire une phrase. Demande-moi de traduire un mot à la fois MAXIMUM.
-                    """},
+                    """
+                for response in client.chat.completions.create(
+                model="nousresearch/nous-capybara-7b",
+                messages=[
+                    {"role": "system", "content": system_prompt_2},
                     {"role": "user", "content": prompt} 
                     ],
                     stream=True,

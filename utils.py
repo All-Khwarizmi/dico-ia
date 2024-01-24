@@ -16,7 +16,7 @@ def init_files():
     if not os.path.exists(interactions_file):
         with open(interactions_file, 'w', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(['UserPrompt', 'SystemPromptID', 'LLMResponse', 'ModelName', 'Date', 'Quality', 'Comments', 'UserFeedback', ])
+            writer.writerow(['UserPrompt', 'SystemPromptID', 'PromptName', 'LLMResponse', 'ModelName', 'Date', 'Quality', 'Comments', 'UserFeedback', ])
 
 # Function to add a new system prompt
 def add_system_prompt(prompt):
@@ -51,11 +51,11 @@ def get_system_prompt_id(prompt):
     return None
 
 # Function to log an interaction with LLM
-def add_llm_call_row(system_prompt_id, user_prompt, llm_response, model_name, quality=None, comments=None, user_feedback=None):
+def add_llm_call_row(system_prompt_id,prompt_name, user_prompt, llm_response, model_name, quality=None, comments=None, user_feedback=None):
     date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(interactions_file, 'a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([user_prompt, system_prompt_id, llm_response, model_name, date_time, quality, comments, user_feedback, ])
+        writer.writerow([user_prompt, system_prompt_id,prompt_name, llm_response, model_name, date_time, quality, comments, user_feedback, ])
 
 
 # Function to update quality and comments for the last row
