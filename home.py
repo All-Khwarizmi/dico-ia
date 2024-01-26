@@ -17,6 +17,7 @@ st.set_page_config(
 )
 st.title(TITLE)
 st.subheader(MAIN_TITLE_SUBHEADER)
+st.divider()
 
 # Initialize dataframe in state to store user translations
 if "TRANSLATIONS" not in st.session_state:
@@ -63,11 +64,13 @@ if st.button('Traduire'):
 
     
     # Add the translation to the chat history
-    st.session_state["TRANSLATIONS"].loc[len(st.session_state["TRANSLATIONS"])] = [translation_direction, word_to_translate, response.choices[0].message.content]
+    st.session_state["TRANSLATIONS"].loc[len(st.session_state["TRANSLATIONS"])] = [translation_direction, word_to_translate, response.choices[0].message.content]   
+        
     
 
 # Display the translations history
 if not st.session_state["TRANSLATIONS"].empty:
+    st.divider()
     st.subheader("Historique des traductions")
     st.dataframe(st.session_state["TRANSLATIONS"])    
 
