@@ -1,7 +1,7 @@
 # [DicoIA](https://dicoia.streamlit.app/) 
 
 ## Description
-DicoIA est un dictionnaire multilingue alliant grands modèles de langage, issus du catalogue d'[OpenRouter](https://openrouter.ai/docs#models), à une interface **intuitive** et **épurée** créée grâce à [Streamlit](https://streamlit.io/).
+[DicoIA](https://dicoia.streamlit.app/) est un dictionnaire multilingue alliant grands modèles de langage, issus du catalogue d'[OpenRouter](https://openrouter.ai/docs#models), à une interface **intuitive** et **épurée** créée grâce à [Streamlit](https://streamlit.io/).
 
 ## Motivation
 DicoIA est une version améliorée de [Dico](https://dico-uno.vercel.app/) qui est d'un besoin d'éduquer mes élèves à l'utilisation des dictionnaires en ligne. En effet, et fort malheureusement, les dictionnaires en ligne sont devenus l'ennemi du professeur de langue alors même qu'ils devraient être une aubaine. DicoIA est donc un outil qui permet d'initier les élèves à l'utilisation des dictionnaires en ligne et de leur inculquer les bonnes pratiques méthodologiques.
