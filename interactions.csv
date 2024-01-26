@@ -42,3 +42,7 @@ OUI, (2 mots: /j'adore/ /les/ /pommes/ /vertes/).
 "Comment on dit ""j'adore les pommes vertes et rouges et bien grandes"" en espagnol?",3,is_compliant_call,"OUI, (6 mots: j'adore les pommes vertes et rouges et bien grandes).",mistralai/mistral-7b-instruct,2024-01-25 00:44:46,,,
 "Comment on dit ""j'adore les pommes vertes et rouges et bien grandes"" en espagnol?",6,extract_words_call,"""I love green and red apples and big ones"" can be translated to ""Adoro las manzanas verdes y rojas y muy grandes"" in Spanish.",mistralai/mistral-7b-instruct,2024-01-25 00:45:47,,,
 "Comment on dit ""j'adore les pommes vertes et rouges et bien grandes"" en espagnol?",3,is_compliant_call,"OUI, (5 mots: j'adore les pommes vertes et rouges et bien grandes).",mistralai/mistral-7b-instruct,2024-01-25 00:45:49,,,
+traduis 'cuisine' en espagnol,6,extract_words_call,"<</SYS>>
+
+La traduction de 'cuisine' en espagnol est 'cocina'.",mistralai/mistral-7b-instruct,2024-01-26 19:24:30,,,
+traduis 'cuisine' en espagnol,3,is_compliant_call,"OUI, (1 mot: /cuisine/).",mistralai/mistral-7b-instruct,2024-01-26 19:24:34,,,

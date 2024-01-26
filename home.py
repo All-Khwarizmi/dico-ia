@@ -1,6 +1,7 @@
 from os import system
 import streamlit as st
-from utils import add_system_prompt, get_system_prompt_id, add_llm_call_row, init_files, update_last_row_quality_comments
+from ui_text import *
+from utils import add_system_prompt, get_system_prompt_id, add_llm_call_row, init_files, llm_call, update_last_row_quality_comments
 import pandas as pd
 from prompts import *
 from openai import OpenAI
@@ -10,8 +11,8 @@ model_list = ["mistralai/mistral-7b-instruct", "nousresearch/nous-capybara-7b"]
 MODE_NAME = "mistralai/mistral-7b-instruct"
 
 
-st.title("DicoIA")
-st.subheader("Un assistant qui aide des élèves de collège à traduire des mots de vocabulaire et à donner des définitions de mots.")
+st.title(TITLE)
+st.subheader(MAIN_TITLE_SUBHEADER)
 
 
 # Initialize chat history
@@ -47,15 +48,8 @@ if prompt:
             full_response = ""
             
             # Ask LLM to extract the words that the user wants to translate
-           
-            response = client.chat.completions.create(
-            model=MODE_NAME,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT_3},
-                {"role": "user", "content": prompt} 
-                ],
-            stream=False,
-            )
+            response = llm_call(SYSTEM_PROMPT_3, prompt, MODE_NAME)
+            
             # Check if the prompt is already in the system prompts file
             system_prompt_id = get_system_prompt_id(SYSTEM_PROMPT_3)
             if system_prompt_id is None:

@@ -1,6 +1,14 @@
 import csv
 import os
 import datetime
+from openai import OpenAI
+import streamlit as st
+
+OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+client = OpenAI(
+  base_url="https://openrouter.ai/api/v1",
+  api_key=OPENROUTER_API_KEY,
+) 
 
 # File paths
 system_prompts_file = 'system_prompts.csv'
@@ -78,7 +86,19 @@ def update_last_row_quality_comments(quality, comments):
     else:
         print("No interaction data to update.")
         
-        
+
+# A wrapper function of the LLM call 
+def llm_call(system_prompt, user_prompt, model_name):
+    response = client.chat.completions.create(
+    model=model_name,
+    messages=[
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt} 
+        ],
+    stream=False,
+    )
+
+    return response        
 
 TRADUCTIONS = [
     "Français - Espagnol",
