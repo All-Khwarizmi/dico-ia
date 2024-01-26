@@ -77,3 +77,14 @@ def update_last_row_quality_comments(quality, comments):
             writer.writerows(rows)
     else:
         print("No interaction data to update.")
+        
+        
+
+TRADUCTIONS = [
+    "Français - Espagnol",
+    "Français - Anglais",
+    "Français - Allemand",
+    "Espagnol - Français",
+    "Anglais - Français",
+    "Allemand - Français",
+]
