@@ -89,6 +89,8 @@ st.sidebar.markdown(QANDA_2_QUESTION)
 st.sidebar.markdown(QANDA_2_ANSWER)
 st.sidebar.markdown(QANDA_3_QUESTION)
 st.sidebar.markdown(QANDA_3_ANSWER)
+st.sidebar.markdown(QANDA_5_QUESTION)
+st.sidebar.markdown(QANDA_5_ANSWER)
 
 
 
