@@ -22,6 +22,13 @@ Pour démarrer avec DicoIA, suivez ces étapes simples :
 2. Installez les dépendances : `pip install -r requirements.txt`
 3. Lancez l'application : `streamlit run home.py` 
 
+## Roadmap
+- [] Ajouter des modèles de langage supplémentaires en fallback.
+- [] Ajouter une feature définition de mots.
+- [] Donner la possibilité à l'utilisateur de laisser une feedback sur la traduction.
+- [] Ajouter un bouton pour copier la traduction dans le presse-papier.
+- [] Stocker les traductions dans une base de données.
+- [] Stocker les feedbacks dans une base de données.
 
 ## Contribuer
 Nous accueillons les contributions de toutes sortes. Pour contribuer au projet, veuillez :
