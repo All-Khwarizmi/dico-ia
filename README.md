@@ -1,4 +1,4 @@
-# DicoIA
+# [DicoIA](https://dicoia.streamlit.app/) 
 
 ## Description
 DicoIA est un dictionnaire multilingue alliant grands modèles de langage, issus du catalogue d'[OpenRouter](https://openrouter.ai/docs#models), à une interface **intuitive** et **épurée** créée grâce à [Streamlit](https://streamlit.io/).
@@ -15,7 +15,7 @@ L'application est disponible en ligne à l'adresse suivante : [DicoIA](https://d
 - Sélectionnez le sens de la traduction (français vers espagnol ou espagnol vers français).
 - Entrez jusqu'à trois mots dans le champ de recherche.
 - Appuyez sur le bouton de traduction pour recevoir les traductions correspondantes.
-- 
+
 ## Demarrage en local
 Pour démarrer avec DicoIA, suivez ces étapes simples :
 1. Clonez le dépôt : `git clone https://github.com/All-Khwarizmi/dico-ia`
