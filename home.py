@@ -50,7 +50,7 @@ if st.button('Traduire'):
         st.stop()
     
     # Call LLM to translate the word
-    word_to_translate = get_translation_system_prompt(translation_direction, word_to_translate)
+    word_to_translate_format = get_translation_system_prompt(translation_direction, word_to_translate)
     response = llm_call(TRANSLATION_SYSTEM_PROMPT, word_to_translate, MODEL_NAME)
     
     # Check if the prompt is already in the system prompts file
