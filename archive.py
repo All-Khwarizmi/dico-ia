@@ -1,3 +1,4 @@
+prompt = st.chat_input("Que veux-tu savoir ?")
 if prompt:
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})

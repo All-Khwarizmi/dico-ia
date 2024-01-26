@@ -30,7 +30,6 @@ try:
     init_files()
 except:
     st.error("Error initializing files. Please check the file permissions.")
-prompt = st.chat_input("Que veux-tu savoir ?")
          
 
 # Streamlit selectbox to choose a translation direction (from language and to language)

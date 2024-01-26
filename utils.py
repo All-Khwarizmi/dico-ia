@@ -104,7 +104,9 @@ def llm_call(system_prompt, user_prompt, model_name):
     stream=False,
     )
 
-    return response        
+    return response    
+
+    
 
 TRADUCTIONS = [
     "Français - Espagnol",
