@@ -9,7 +9,12 @@ ENV = st.secrets["ENV"]
 model_list = ["mistralai/mistral-7b-instruct", "nousresearch/nous-capybara-7b"]
 MODEL_NAME = "mistralai/mistral-7b-instruct"
 
-
+st.set_page_config(
+    page_title=TITLE,
+    page_icon="🐙",
+    layout="centered",
+    initial_sidebar_state="auto",
+)
 st.title(TITLE)
 st.subheader(MAIN_TITLE_SUBHEADER)
 
