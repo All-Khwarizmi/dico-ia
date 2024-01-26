@@ -38,3 +38,8 @@ SYSTEM_PROMPT_2 = """
 SYSTEM_PROMPT_3 = """
                  Quels sont les mots que l'utilisateur veut traduire?
                  """
+                 
+                 
+SYSTEM_PROMPT_4 = """
+                    T
+                    """

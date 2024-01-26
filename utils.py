@@ -5,7 +5,7 @@ from openai import OpenAI
 import streamlit as st
 
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
-client = OpenAI(
+CLIENT = OpenAI(
   base_url="https://openrouter.ai/api/v1",
   api_key=OPENROUTER_API_KEY,
 ) 
@@ -95,7 +95,7 @@ def check_and_add_system_prompt(prompt):
 
 # A wrapper function of the LLM call 
 def llm_call(system_prompt, user_prompt, model_name):
-    response = client.chat.completions.create(
+    response = CLIENT.chat.completions.create(
     model=model_name,
     messages=[
         {"role": "system", "content": system_prompt},
