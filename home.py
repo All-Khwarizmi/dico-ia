@@ -48,7 +48,7 @@ if st.button('Traduire'):
     response = llm_call(TRANSLATION_SYSTEM_PROMPT, word_to_translate, MODEL_NAME)
     
     # Check if the prompt is already in the system prompts file
-    translate_system_prompt_id = check_and_add_system_prompt(translation_direction)
+    translate_system_prompt_id = check_and_add_system_prompt(TRANSLATION_SYSTEM_PROMPT)
     
     # Add interaction to interactions file
     add_llm_call_row(translate_system_prompt_id, "translate_call", word_to_translate, response.choices[0].message.content, MODEL_NAME )
