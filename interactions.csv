@@ -57,3 +57,7 @@ In Spanish, the word for 'île' is 'île'.",mistralai/mistral-7b-instruct,2024-0
 île,7,translate_call,La traduction de l'anglais 'île' en espagnol est 'isla'.,mistralai/mistral-7b-instruct,2024-01-26 22:33:33,,,
 maison,7,translate_call,"La traduction du mot ""maison"" en espagnol est ""casa"".",mistralai/mistral-7b-instruct,2024-01-26 22:33:47,,,
 maison,8,translate_call,Le mot 'maison' en anglais est 'house'.,mistralai/mistral-7b-instruct,4,En ajoutant a translation system prompt est un translation direction template on obtient des résultats convenables et surtout une plus grande constance dans les réponses,,
+Traduis les mots 'maison' en allemand.,9,translate_call,La traduction de 'maison' en allemand est 'Wohnhaus'.,mistralai/mistral-7b-instruct,2024-01-26 22:40:02,,,
+Traduis les mots 'la maison bleu' en allemand.,9,translate_call,La traduction du mot 'la maison bleu' en allemand est 'die blaue Haus'.,mistralai/mistral-7b-instruct,2024-01-26 22:40:18,,,
+Traduis les mots 'la maison bleu' en espagnol.,7,translate_call,La traduction du mot 'la maison bleu' en espagnol est 'la casa azul'.,mistralai/mistral-7b-instruct,2024-01-26 22:40:24,,,
+Traduis les mots 'la maison bleu' en français.,10,translate_call,La traduction de 'la maison bleu' en français est 'la maison bleue'.,mistralai/mistral-7b-instruct,2024-01-26 22:40:54,,,
