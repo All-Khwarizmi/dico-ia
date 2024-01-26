@@ -13,7 +13,9 @@ MODEL_NAME = "mistralai/mistral-7b-instruct"
 st.title(TITLE)
 st.subheader(MAIN_TITLE_SUBHEADER)
 
-
+# Initialize dataframe in state to store user translations
+if "TRANSLATIONS" not in st.session_state:
+    st.session_state["TRANSLATIONS"] = pd.DataFrame(columns=["Direction", "Word", "Translation"])
      
 # Try to initialize the files (for keeping track of prompt design monitoring and logging)
 if ENV == "dev":
@@ -56,7 +58,13 @@ if st.button('Traduire'):
 
     
     # Add the translation to the chat history
+    st.session_state["TRANSLATIONS"].loc[len(st.session_state["TRANSLATIONS"])] = [translation_direction, word_to_translate, response.choices[0].message.content]
     
+
+# Display the translations history
+if not st.session_state["TRANSLATIONS"].empty:
+    st.subheader("Historique des traductions")
+    st.dataframe(st.session_state["TRANSLATIONS"])    
 
 sidebar_prompt_monitoring(ENV)
 # Add sidebar Q&A to tell users in french how to use the app and why thre're certain constraints

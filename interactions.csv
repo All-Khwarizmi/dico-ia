@@ -62,3 +62,8 @@ Traduis les mots 'la maison bleu' en allemand.,9,translate_call,La traduction du
 Traduis les mots 'la maison bleu' en espagnol.,7,translate_call,La traduction du mot 'la maison bleu' en espagnol est 'la casa azul'.,mistralai/mistral-7b-instruct,2024-01-26 22:40:24,,,
 Traduis les mots 'la maison bleu' en français.,10,translate_call,La traduction de 'la maison bleu' en français est 'la maison bleue'.,mistralai/mistral-7b-instruct,2024-01-26 22:40:54,,,
 Traduis les mots 'la maison bleu et ' en français.,10,translate_call,"""The blue house"" in French would be ""La maison bleue"".",mistralai/mistral-7b-instruct,3,Parfois le LLM répond en anglais ,,
+Traduis les mots 'maison' en espagnol.,7,translate_call,La traduction de la parole 'maison' en espagnol est 'casa'.,mistralai/mistral-7b-instruct,2024-01-26 23:13:37,,,
+Traduis les mots 'ami' en espagnol.,7,translate_call,"<</SYS>>
+
+L'ami en espagnol est 'amigo'.",mistralai/mistral-7b-instruct,2024-01-26 23:13:50,,,
+Traduis les mots 'animal errant' en espagnol.,7,translate_call,L'animal errant est un chat errant en espagnol.,mistralai/mistral-7b-instruct,2,Le modèle a donné une explication du terme que l'on souhaitait traduire. ,,
