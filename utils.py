@@ -85,7 +85,13 @@ def update_last_row_quality_comments(quality, comments):
             writer.writerows(rows)
     else:
         print("No interaction data to update.")
-        
+
+# Function to check if a prompt is in the system prompts file and store it if not
+def check_and_add_system_prompt(prompt):
+    system_prompt_id = get_system_prompt_id(prompt)
+    if system_prompt_id is None:
+        system_prompt_id = add_system_prompt(prompt)
+    return system_prompt_id   
 
 # A wrapper function of the LLM call 
 def llm_call(system_prompt, user_prompt, model_name):
