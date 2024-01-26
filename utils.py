@@ -100,10 +100,6 @@ def check_and_add_system_prompt(prompt):
 def llm_call(system_prompt, user_prompt, model_name):
     response = CLIENT.chat.completions.create(
     model=model_name,
-    headers= {
-        "HTTP-Referer": "https://dicoia.streamlit.app/",
-        "X-Title": "DicoIA",
-    },
     messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt} 
