@@ -61,3 +61,4 @@ Traduis les mots 'maison' en allemand.,9,translate_call,La traduction de 'maison
 Traduis les mots 'la maison bleu' en allemand.,9,translate_call,La traduction du mot 'la maison bleu' en allemand est 'die blaue Haus'.,mistralai/mistral-7b-instruct,2024-01-26 22:40:18,,,
 Traduis les mots 'la maison bleu' en espagnol.,7,translate_call,La traduction du mot 'la maison bleu' en espagnol est 'la casa azul'.,mistralai/mistral-7b-instruct,2024-01-26 22:40:24,,,
 Traduis les mots 'la maison bleu' en français.,10,translate_call,La traduction de 'la maison bleu' en français est 'la maison bleue'.,mistralai/mistral-7b-instruct,2024-01-26 22:40:54,,,
+Traduis les mots 'la maison bleu et ' en français.,10,translate_call,"""The blue house"" in French would be ""La maison bleue"".",mistralai/mistral-7b-instruct,3,Parfois le LLM répond en anglais ,,

@@ -1,17 +1,13 @@
-from os import system
-from h11 import CLIENT
 import streamlit as st
 from ui_text import *
 from utils import *
 import pandas as pd
 from prompts import *
-from openai import OpenAI
-
 
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 ENV = st.secrets["ENV"]
 model_list = ["mistralai/mistral-7b-instruct", "nousresearch/nous-capybara-7b"]
-MODE_NAME = "mistralai/mistral-7b-instruct"
+MODEL_NAME = "mistralai/mistral-7b-instruct"
 
 
 st.title(TITLE)
@@ -55,27 +51,27 @@ if st.button('Traduire'):
     
     # Call LLM to translate the word
     word_to_translate = get_translation_system_prompt(translation_direction, word_to_translate)
-    response = llm_call(TRANSLATION_SYSTEM_PROMPT, word_to_translate, MODE_NAME)
+    response = llm_call(TRANSLATION_SYSTEM_PROMPT, word_to_translate, MODEL_NAME)
     
     # Check if the prompt is already in the system prompts file
     translate_system_prompt_id = check_and_add_system_prompt(translation_direction)
     
     # Add interaction to interactions file
-    add_llm_call_row(translate_system_prompt_id, "translate_call", word_to_translate, response.choices[0].message.content, MODE_NAME )
+    add_llm_call_row(translate_system_prompt_id, "translate_call", word_to_translate, response.choices[0].message.content, MODEL_NAME )
     
     # Display the translation
     st.success(response.choices[0].message.content)
 
 
          
-# Importing the dataset 
-df = pd.read_csv('interactions.csv')
 
-# Displaying the dataset as a table
-st.sidebar.subheader('Tableau des interactions')
-st.sidebar.dataframe(df)
 
 if ENV == "dev":
+    # Importing the dataset 
+    df = pd.read_csv('interactions.csv')
+    # Displaying the dataset as a table
+    st.sidebar.subheader('Tableau des interactions')
+    st.sidebar.dataframe(df)
     # Check if dataset is empty and if not, show possiblity of adding a quality  and comments
     if not df.empty:
         st.sidebar.subheader('Ajouter une qualité et des commentaires')
