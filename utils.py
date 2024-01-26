@@ -106,19 +106,33 @@ def llm_call(system_prompt, user_prompt, model_name):
 
     return response    
 
-# Function that takes a prompt coming from the user, split it into words, counts the number of words and returns the number of words and the words that are less than 3 characters long
+# A llm_call like function that only takes a system prompt and a model name
+def llm_call_2(system_prompt, model_name):
+    response = CLIENT.chat.completions.create(
+    model=model_name,
+    messages=[
+        {"role": "user", "content": system_prompt} 
+        ],
+    stream=False,
+    )
+
+    return response
+
+# Function that takes a prompt coming from the user, split it into words, counts the number of words and returns true if the number of words that are more than 3 characters long are less than 3, false otherwise
 def get_words_less_than_3_chars(prompt):
     words = prompt.split()
-    words_less_than_3_chars = []
+    count = 0
     for word in words:
-        if len(word) < 3:
-            words_less_than_3_chars.append(word)
-    return len(words_less_than_3_chars), words_less_than_3_chars
+        if len(word) > 3:
+            count += 1
+    return count < 3
+
 
 # Function that takes a translation direction ie "Français - Espagnol" and a word and inserts it into a system prompt according to the template
 def get_translation_system_prompt(translation_direction, word):
     return SYSTEM_PROMPTS[translation_direction].replace("TARGET", word)
 
+# Function that aggregates get_words_less_than_3_chars ans get_translation_system_prompt 
 
 TRADUCTIONS = [
     "Français - Espagnol",
@@ -128,6 +142,15 @@ TRADUCTIONS = [
     "Anglais - Français",
     "Allemand - Français",
 ]
+
+# A base system prompt for all translation directions
+TRANSLATION_SYSTEM_PROMPT = """
+                Tu es Dico, un assistant qui aide des élèves FRANÇAIS de collège à traduire des mots de vocabulaire. Tu peux aussi donner des définitions de mots.
+                Tu dois donc leur répondre en FRANÇAIS.
+                Tu dois être le plus précis possible. Si tu ne connais pas la traduction d'un mot, tu dois le dire.
+                Tu dois être le plus concis possible et ne pas donner plus d'informations que nécessaire.
+                 """
+
 # A list of system prompts for each translation direction
 SYSTEM_PROMPTS = {
     "Français - Espagnol": "Traduis les mots 'TARGET' en espagnol.",
@@ -137,4 +160,3 @@ SYSTEM_PROMPTS = {
     "Anglais - Français": "Traduis les mots 'TARGET' en français.",
     "Allemand - Français": "Traduis les mots 'TARGET' en français.",
 }
-TRANSLATIONS_PROMPTS 

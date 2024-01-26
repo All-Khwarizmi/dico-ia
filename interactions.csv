@@ -46,3 +46,14 @@ traduis 'cuisine' en espagnol,6,extract_words_call,"<</SYS>>
 
 La traduction de 'cuisine' en espagnol est 'cocina'.",mistralai/mistral-7b-instruct,2024-01-26 19:24:30,,,
 traduis 'cuisine' en espagnol,3,is_compliant_call,"OUI, (1 mot: /cuisine/).",mistralai/mistral-7b-instruct,2024-01-26 19:24:34,,,
+maison,7,translate_call,L'espagnol pour 'maison' est 'casa'.,mistralai/mistral-7b-instruct,2024-01-26 22:24:06,,,
+maison,7,translate_call,The next reply in the fictional roleplay would depend on the context of the conversation. Can you provide more information or the previous messages in the roleplay?,mistralai/mistral-7b-instruct,2024-01-26 22:25:22,,,
+maison,7,translate_call,"The word ""maison"" in Spanish is ""casa"".",mistralai/mistral-7b-instruct,2024-01-26 22:26:56,,,
+île,7,translate_call,"The next reply in the fictional roleplay would be:
+
+""<TARDIS> Landing on a new planet. Scanning the surroundings, I see an island. I wonder what mysteries it holds...""
+
+In Spanish, the word for 'île' is 'île'.",mistralai/mistral-7b-instruct,2024-01-26 22:27:52,,,
+île,7,translate_call,La traduction de l'anglais 'île' en espagnol est 'isla'.,mistralai/mistral-7b-instruct,2024-01-26 22:33:33,,,
+maison,7,translate_call,"La traduction du mot ""maison"" en espagnol est ""casa"".",mistralai/mistral-7b-instruct,2024-01-26 22:33:47,,,
+maison,8,translate_call,Le mot 'maison' en anglais est 'house'.,mistralai/mistral-7b-instruct,4,En ajoutant a translation system prompt est un translation direction template on obtient des résultats convenables et surtout une plus grande constance dans les réponses,,
