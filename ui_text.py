@@ -33,3 +33,15 @@ Si tu as besoin de plus d'informations:
 2. Formule ce que tu veux dire en utilisant des mots simples et phrases courtes.
 3. Cherche à utiliser des mots que tu connais déjà. Regarde dans ton cahier, manuel ou autre ressource à ta disposition.
 """
+
+# Function wrapper of the sidebar Q&A to tell users in french how to use the app and why thre're certain constraints
+def sidebar_QA(st):
+    st.sidebar.title(SIDEBAR_TITLE)
+    st.sidebar.markdown(SIDEBAR_SUBHEADER_1)
+    st.sidebar.markdown(QANDA_1)
+    st.sidebar.markdown(QANDA_2_QUESTION)
+    st.sidebar.markdown(QANDA_2_ANSWER)
+    st.sidebar.markdown(QANDA_3_QUESTION)
+    st.sidebar.markdown(QANDA_3_ANSWER)
+    st.sidebar.markdown(QANDA_5_QUESTION)
+    st.sidebar.markdown(QANDA_5_ANSWER)

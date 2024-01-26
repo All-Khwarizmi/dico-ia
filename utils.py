@@ -4,6 +4,7 @@ import datetime
 from openai import OpenAI
 import streamlit as st
 from prompts import *
+import pandas  as pd
 
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 CLIENT = OpenAI(
@@ -128,12 +129,9 @@ def get_words_less_than_3_chars(prompt):
             count += 1
     return count < 3
 
-
 # Function that takes a translation direction ie "Français - Espagnol" and a word and inserts it into a system prompt according to the template
 def get_translation_system_prompt(translation_direction, word):
     return SYSTEM_PROMPTS[translation_direction].replace("TARGET", word)
-
-# Function that aggregates get_words_less_than_3_chars ans get_translation_system_prompt 
 
 TRADUCTIONS = [
     "Français - Espagnol",
@@ -144,3 +142,19 @@ TRADUCTIONS = [
     "Allemand - Français",
 ]
 
+
+def sidebar_prompt_monitoring(ENV):
+    if ENV == "dev":
+        # Importing the dataset 
+        df = pd.read_csv('interactions.csv')
+        # Displaying the dataset as a table
+        st.sidebar.subheader('Tableau des interactions')
+        st.sidebar.dataframe(df)
+        # Check if dataset is empty and if not, show possiblity of adding a quality  and comments
+        if not df.empty:
+            st.sidebar.subheader('Ajouter une qualité et des commentaires')
+            quality = st.sidebar.selectbox('Qualité', ['','1', '2', '3', '4', '5'])
+            comments = st.sidebar.text_input('Commentaires')
+            if st.sidebar.button('Ajouter'):
+                update_last_row_quality_comments(quality, comments)
+                st.sidebar.success("Qualité et commentaires ajoutés avec succès!")

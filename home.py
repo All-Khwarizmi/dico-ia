@@ -14,22 +14,14 @@ st.title(TITLE)
 st.subheader(MAIN_TITLE_SUBHEADER)
 
 
-# Initialize chat history
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-# Display chat messages from history on app rerun
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
      
-# Try to initialize the files (for keeping track of prompt design and logging)
-try:
-    init_files()
-except:
-    st.error("Error initializing files. Please check the file permissions.")
+# Try to initialize the files (for keeping track of prompt design monitoring and logging)
+if ENV == "dev":
+    try:
+        init_files()
+    except:
+        st.error("Error initializing files. Please check the file permissions.")
          
-
 # Streamlit selectbox to choose a translation direction (from language and to language)
 translation_direction = st.selectbox('Choisis une direction de traduction', TRADUCTIONS)
 
@@ -62,35 +54,13 @@ if st.button('Traduire'):
     # Display the translation
     st.success(response.choices[0].message.content)
 
+    
+    # Add the translation to the chat history
+    
 
-         
-
-
-if ENV == "dev":
-    # Importing the dataset 
-    df = pd.read_csv('interactions.csv')
-    # Displaying the dataset as a table
-    st.sidebar.subheader('Tableau des interactions')
-    st.sidebar.dataframe(df)
-    # Check if dataset is empty and if not, show possiblity of adding a quality  and comments
-    if not df.empty:
-        st.sidebar.subheader('Ajouter une qualité et des commentaires')
-        quality = st.sidebar.selectbox('Qualité', ['','1', '2', '3', '4', '5'])
-        comments = st.sidebar.text_input('Commentaires')
-        if st.sidebar.button('Ajouter'):
-            update_last_row_quality_comments(quality, comments)
-            st.sidebar.success("Qualité et commentaires ajoutés avec succès!")
-
+sidebar_prompt_monitoring(ENV)
 # Add sidebar Q&A to tell users in french how to use the app and why thre're certain constraints
-st.sidebar.title(SIDEBAR_TITLE)
-st.sidebar.markdown(SIDEBAR_SUBHEADER_1)
-st.sidebar.markdown(QANDA_1)
-st.sidebar.markdown(QANDA_2_QUESTION)
-st.sidebar.markdown(QANDA_2_ANSWER)
-st.sidebar.markdown(QANDA_3_QUESTION)
-st.sidebar.markdown(QANDA_3_ANSWER)
-st.sidebar.markdown(QANDA_5_QUESTION)
-st.sidebar.markdown(QANDA_5_ANSWER)
+sidebar_QA(st)
 
 
 
