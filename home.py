@@ -7,7 +7,9 @@ import pandas as pd
 from prompts import *
 from openai import OpenAI
 
+
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+ENV = st.secrets["ENV"]
 model_list = ["mistralai/mistral-7b-instruct", "nousresearch/nous-capybara-7b"]
 MODE_NAME = "mistralai/mistral-7b-instruct"
 
@@ -73,14 +75,15 @@ df = pd.read_csv('interactions.csv')
 st.sidebar.subheader('Tableau des interactions')
 st.sidebar.dataframe(df)
 
-# Check if dataset is empty and if not, show possiblity of adding a quality  and comments
-if not df.empty:
-    st.sidebar.subheader('Ajouter une qualité et des commentaires')
-    quality = st.sidebar.selectbox('Qualité', ['','1', '2', '3', '4', '5'])
-    comments = st.sidebar.text_input('Commentaires')
-    if st.sidebar.button('Ajouter'):
-        update_last_row_quality_comments(quality, comments)
-        st.sidebar.success("Qualité et commentaires ajoutés avec succès!")
+if ENV == "dev":
+    # Check if dataset is empty and if not, show possiblity of adding a quality  and comments
+    if not df.empty:
+        st.sidebar.subheader('Ajouter une qualité et des commentaires')
+        quality = st.sidebar.selectbox('Qualité', ['','1', '2', '3', '4', '5'])
+        comments = st.sidebar.text_input('Commentaires')
+        if st.sidebar.button('Ajouter'):
+            update_last_row_quality_comments(quality, comments)
+            st.sidebar.success("Qualité et commentaires ajoutés avec succès!")
 
 # Add sidebar Q&A to tell users in french how to use the app and why thre're certain constraints
 st.sidebar.title(SIDEBAR_TITLE)
