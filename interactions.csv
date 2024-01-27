@@ -68,3 +68,7 @@ Traduis les mots 'ami' en espagnol.,7,translate_call,"<</SYS>>
 L'ami en espagnol est 'amigo'.",mistralai/mistral-7b-instruct,2024-01-26 23:13:50,,,
 Traduis les mots 'animal errant' en espagnol.,7,translate_call,L'animal errant est un chat errant en espagnol.,mistralai/mistral-7b-instruct,2,Le modèle a donné une explication du terme que l'on souhaitait traduire. ,,
 Traduis les mots 'animal errant' en espagnol.,7,translate_call,"L'expression ""animal errant"" peut être traduite par ""animal vagón"" en espagnol.",mistralai/mistral-7b-instruct,5,"Le modèle ne donne plus d'explication. Ceci était dû au fait que dans la base prompt pour traduire un mot, on faisait mention de définition. Il faudra quand on développera cette feature créer une prompt à cet effet précis.",,
+maison,11,translate_call,"La traduction du mot ""maison"" en français est ""maison"".",mistralai/mistral-7b-instruct,2024-01-27 15:51:39,,,
+maison,11,translate_call,"La traduction du mot ""house"" en français est ""maison"".",mistralai/mistral-7b-instruct,2024-01-27 15:51:56,,,
+chat,11,translate_call,"Le mot ""chat"" se traduit par ""cat"" en anglais.",mistralai/mistral-7b-instruct,2024-01-27 15:52:24,,,
+chat,11,translate_call,"Le mot ""chat"" signifie ""cat"" en anglais.",mistralai/mistral-7b-instruct,2,"Il semblerait qu'après plusieurs appels consécutifs, le modèle réponde moins bien. Ici mélange les directions de traduction.",,

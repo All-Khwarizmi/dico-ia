@@ -80,8 +80,8 @@ def update_last_row_quality_comments(quality, comments):
         rows = list(reader)
 
     if len(rows) > 1:  # Check if there's more than just the header
-        rows[-1][5] = quality   # Update quality
-        rows[-1][6] = comments  # Update comments
+        rows[-1][6] = quality   # Update quality
+        rows[-1][7] = comments  # Update comments
 
         with open(interactions_file, 'w', newline='') as file:
             writer = csv.writer(file)
