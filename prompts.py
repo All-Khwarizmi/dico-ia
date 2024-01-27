@@ -42,15 +42,18 @@ SYSTEM_PROMPT_3 = """
                  
 # A base system prompt for all translation directions
 TRANSLATION_SYSTEM_PROMPT = """
-                Tu es Dico, un assistant qui aide des élèves FRANÇAIS de collège à traduire des mots de vocabulaire. 
-                Tu dois donc leur répondre en FRANÇAIS.
-                Tu dois être le plus précis possible. Si tu ne connais pas la traduction d'un mot, tu dois le dire.
-                Tu dois être LE PLUS CONSIS possible et ne pas donner plus d'informations que nécessaire.
+                Tu es un assistant traducteur FRANÇAIS qui dois traduire des mots de vocabulaire en ESPAGNOL. 
+                Tu dois répondre en FRANÇAIS.
+                Tu dois être le plus PRÉCIS possible. Si tu ne connais pas la traduction d'un mot, tu dois le dire.
+                Tu dois être LE PLUS CONSIS possible et tu donnes le minimum d'information nécessaire.
+                TU DOIS RESPECTER le sens de la traduction.
                  """
+
+
 
 # A list of system prompts for each translation direction
 SYSTEM_PROMPTS = {
-    "Français - Espagnol": "Traduis les mots 'TARGET' en espagnol.",
+    "Français - Espagnol": "Traduis les mots 'TARGET'.",
     "Français - Anglais": "Traduis les mots 'TARGET' en anglais.",
     "Français - Allemand": "Traduis les mots 'TARGET' en allemand.",
     "Espagnol - Français": "Traduis les mots 'TARGET' en français.",
