@@ -1,5 +1,8 @@
 
 
+from numpy import source
+
+
 SYSTEM_PROMPT = """
                  Ta mission est de DÉTERMINER si une demande de traduction d'un utilisateur depasse la limite de 3 mots MAXIMUM. Tu dois compter uniquement les mots que l'utilisateur cherche à traduire. TU DOIS répondre OUI ou NON, indiquer le nombre de mots et les mots que l'utilisateur cherche à traduire. TU NE DOIS PAS TRADUIRE la demande de l'utilisateur.
                  On va procéder par étapes.
@@ -42,24 +45,21 @@ SYSTEM_PROMPT_3 = """
                  
 # A base system prompt for all translation directions
 TRANSLATION_SYSTEM_PROMPT = """
-                Tu es un assistant traducteur FRANÇAIS qui dois traduire des mots de vocabulaire en TARGET. 
+                Tu es un assistant traducteur SOURCE qui dois traduire des mots de vocabulaire en TARGET. 
                 Tu dois répondre en FRANÇAIS.
                 Tu dois être le plus PRÉCIS possible. Si tu ne connais pas la traduction d'un mot, tu dois le dire.
                 Tu dois être LE PLUS CONSIS possible et tu donnes le minimum d'information nécessaire.
                 TU DOIS RESPECTER le sens de la traduction.
                  """
 
-# Function that takes a translation direction ie "Français - Espagnol" and returns a TRANSLATION_SYSTEM_PROMPT with the target language and the source language
-def get_translation_system_prompt_target(translation_direction):
-    target_language = translation_direction.split(" - ")[1]
-    return TRANSLATION_SYSTEM_PROMPT.replace("TARGET", target_language.upper())
+
 
 # A list of system prompts for each translation direction
 SYSTEM_PROMPTS = {
-    "Français - Espagnol": "Traduis les mots 'TARGET'.",
-    "Français - Anglais": "Traduis les mots 'TARGET' en anglais.",
-    "Français - Allemand": "Traduis les mots 'TARGET' en allemand.",
+    "Français - Espagnol": "Traduis les mots 'TARGET' en espagnol.",
+    # "Français - Anglais": "Traduis les mots 'TARGET' en anglais.",
+    # "Français - Allemand": "Traduis les mots 'TARGET' en allemand.",
     "Espagnol - Français": "Traduis les mots 'TARGET' en français.",
-    "Anglais - Français": "Traduis les mots 'TARGET' en français.",
-    "Allemand - Français": "Traduis les mots 'TARGET' en français.",
+    # "Anglais - Français": "Traduis les mots 'TARGET' en français.",
+    # "Allemand - Français": "Traduis les mots 'TARGET' en français.",
 }

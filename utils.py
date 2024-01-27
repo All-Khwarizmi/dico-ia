@@ -134,13 +134,23 @@ def get_words_less_than_3_chars(prompt):
 def get_translation_system_prompt(translation_direction, word):
     return SYSTEM_PROMPTS[translation_direction].replace("TARGET", word)
 
+# Function that takes a translation direction ie "Français - Espagnol" and returns a TRANSLATION_SYSTEM_PROMPT with the target language and the source language
+def get_translation_system_prompt_target(translation_direction):
+    
+    source_language = translation_direction.split(" - ")[0]
+    target_language = translation_direction.split(" - ")[1]
+    
+    PROMPT = TRANSLATION_SYSTEM_PROMPT.replace("TARGET", target_language.upper()).replace("SOURCE", source_language.upper())
+    print(PROMPT)
+    return PROMPT
+
 TRADUCTIONS = [
     "Français - Espagnol",
-    "Français - Anglais",
-    "Français - Allemand",
+    # "Français - Anglais",
+    # "Français - Allemand",
     "Espagnol - Français",
-    "Anglais - Français",
-    "Allemand - Français",
+    # "Anglais - Français",
+    # "Allemand - Français",
 ]
 
 
