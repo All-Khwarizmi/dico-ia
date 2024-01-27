@@ -42,14 +42,17 @@ SYSTEM_PROMPT_3 = """
                  
 # A base system prompt for all translation directions
 TRANSLATION_SYSTEM_PROMPT = """
-                Tu es un assistant traducteur FRANÇAIS qui dois traduire des mots de vocabulaire en ESPAGNOL. 
+                Tu es un assistant traducteur FRANÇAIS qui dois traduire des mots de vocabulaire en TARGET. 
                 Tu dois répondre en FRANÇAIS.
                 Tu dois être le plus PRÉCIS possible. Si tu ne connais pas la traduction d'un mot, tu dois le dire.
                 Tu dois être LE PLUS CONSIS possible et tu donnes le minimum d'information nécessaire.
                 TU DOIS RESPECTER le sens de la traduction.
                  """
 
-
+# Function that takes a translation direction ie "Français - Espagnol" and returns a TRANSLATION_SYSTEM_PROMPT with the target language and the source language
+def get_translation_system_prompt_target(translation_direction):
+    target_language = translation_direction.split(" - ")[1]
+    return TRANSLATION_SYSTEM_PROMPT.replace("TARGET", target_language.upper())
 
 # A list of system prompts for each translation direction
 SYSTEM_PROMPTS = {
