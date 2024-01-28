@@ -4,10 +4,6 @@ from utils import *
 import pandas as pd
 from prompts import *
 
-OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
-ENV = st.secrets["ENV"]
-model_list = ["mistralai/mistral-7b-instruct", "nousresearch/nous-capybara-7b"]
-MODEL_NAME = "nousresearch/nous-capybara-7b"
 
 st.set_page_config(
     page_title=TITLE,
@@ -15,6 +11,7 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="auto",
 )
+
 st.title(TITLE)
 st.subheader(MAIN_TITLE_SUBHEADER)
 st.divider()

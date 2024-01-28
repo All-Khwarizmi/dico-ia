@@ -8,10 +8,16 @@ from prompts import *
 import pandas  as pd
 
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+ENV = st.secrets["ENV"]
+
+
+OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 CLIENT = OpenAI(
   base_url="https://openrouter.ai/api/v1",
   api_key=OPENROUTER_API_KEY,
 ) 
+model_list = ["mistralai/mistral-7b-instruct", "nousresearch/nous-capybara-7b"]
+MODEL_NAME = "nousresearch/nous-capybara-7b"
 
 # File paths
 system_prompts_file = 'system_prompts.csv'
